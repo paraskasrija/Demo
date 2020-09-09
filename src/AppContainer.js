@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import App from './routes';
+import AppNav from './routes';
 import { _components } from './components';
 
 class AppContainer extends Component {
 render() {
     return (
         <_components._root>
-            <App/>
+            <AppNav/>
         </_components._root>
     );
 }

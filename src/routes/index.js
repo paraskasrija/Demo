@@ -6,7 +6,7 @@ import _Login from '../screens/Login/index';
 
 const Stack = createStackNavigator();
 
-function App() {
+function AppNav() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -16,4 +16,4 @@ function App() {
   );
 }
 
-export default App;
+export default AppNav;

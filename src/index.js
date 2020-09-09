@@ -1,13 +1,19 @@
-// import React, { Component } from 'react';
-// import AppContainer from './AppContainer';
 
-// // const { store, persistor } = _initStore();
+import React, { Component } from 'react';
+import { Provider } from 'react-redux';
+import {initStore} from './redux/store';
+import AppContainer from './AppContainer';
 
-// class App extends Component {
-//     render(){
-//         return(
+const store = initStore();
 
-//         )
-//     }
+class App extends Component {
+    render() {
+        return (
+            <Provider store={store}>
+                    <AppContainer />
+            </Provider>
+        );
+    }
+}
 
-// }
+export default App;
