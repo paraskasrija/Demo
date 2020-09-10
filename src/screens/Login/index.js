@@ -29,6 +29,7 @@ class Login extends React.Component {
         super(props);
         this.state = {
             name:'',
+            data:''
         };
     }
 
@@ -36,9 +37,47 @@ class Login extends React.Component {
         alert(this.state.name)
         this.props.setName(this.state.name)
     }
+    setData() {
+        fetch('https://reqres.in/api/users', {
+            method: 'POST',
+            headers: {
+                Accept:'application/json',
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify({
+                "name": this.state.name,
+            }),
+        });
+    }
+
+    _getData() {
+        fetch(`https://reqres.in/api/unknown/2`, {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            
+          }
+        })
+          .then((response) => response.json())
+          .then((responseJson) => {
+            this.setState({ data: responseJson.data.name, countFlag: true })
+            console.log("data", responseJson.data.name)
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+
+    functionCombined() {
+        this.setData();
+        this._onSubmit();
+    }  
+  
 
 
     render(){
+        const { isShowDetail, username, data, countFlag } = this.state;
         return(
             <View style={{flex:1,justifyContent:'center',marginHorizontal:10}}>
                 <View style={{ }}>
@@ -47,7 +86,7 @@ class Login extends React.Component {
                 </Text>
                 <TextInput 
                 placeholder='Name'
-                value={this.state.Name}
+                value={this.state.name}
                 onChangeText={name => this.setState({ name })}
                 />
                 <Text>
@@ -56,11 +95,21 @@ class Login extends React.Component {
                 <TextInput placeholder='Password'/>
                 </View>
                 <View>
-                    <TouchableOpacity onPress={()=> this._onSubmit()} style={{backgroundColor:'red',marginHorizontal:100}}>
+                    <TouchableOpacity onPress={()=> this.functionCombined()} style={{backgroundColor:'red',marginHorizontal:100}}>
                         <Text style={{textAlign:'center'}}>
                             SUBMIT
                         </Text>
                     </TouchableOpacity>
+                    <TouchableOpacity onPress={()=> this._getData()} style={{backgroundColor:'red',marginHorizontal:100,margin:10}}>
+                        <Text style={{textAlign:'center'}}>
+                            Get
+                        </Text>
+                    </TouchableOpacity>
+                    <View>
+                        <Text>
+                            name:{data}
+                        </Text>
+                    </View>
                 </View>
             </View>
         );
@@ -68,8 +117,8 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    state,
-    // name: state.user.name,
+   
+    name: state.user.name,
 
   });
   
