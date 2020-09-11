@@ -1,8 +1,8 @@
-import React from 'react';
 import { View,Text} from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
-import { _actions } from '../../redux/actions'
+import { _actions } from '../../redux/actions';
+import React, { Component } from 'react';
 
 // const TYPE_NAME = 'NAME';
 // // const type_Password = 'Password';
@@ -23,8 +23,26 @@ import { _actions } from '../../redux/actions'
 //    }
 
 // }))(TextInput )
+async function _test(){
+    console.log('function')
+    const response = await fetch('https://api.github.com/users');
+    console.log('before response');
+    const user = await response.json();
+    console.log('user resolved')
+    return user;   
 
-class Login extends React.Component {
+}
+console.log("before calling _test")
+ a = _test();
+ console.log("after _test")
+ console.log(a);
+ a.then(dtaa => console.log(data))
+ console.log("last")
+
+
+
+
+ class Login extends Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -32,6 +50,7 @@ class Login extends React.Component {
             data:''
         };
     }
+    
 
     _onSubmit = () => {
         alert(this.state.name)
@@ -49,6 +68,9 @@ class Login extends React.Component {
             }),
         });
     }
+   
+
+   
 
     _getData() {
         fetch(`https://reqres.in/api/unknown/2`, {
@@ -109,6 +131,13 @@ class Login extends React.Component {
                         <Text>
                             name:{data}
                         </Text>
+                    </View>
+                    <View>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('Dashboard')}>
+                        <Text>
+                            go to main
+                        </Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
