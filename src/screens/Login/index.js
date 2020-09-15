@@ -1,8 +1,38 @@
-import { View,Text} from 'react-native';
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
-import { connect } from 'react-redux';
 import { _actions } from '../../redux/actions';
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import {
+    View,
+    Text,
+    Image,
+    TouchableOpacity,
+    FlatList,
+    StyleSheet,
+    SafeAreaView,
+    Platform,
+    ScrollView,
+    Dimensions,
+    ImageBackground,
+    TextInput,
+    Animated,
+    Keyboard,
+    KeyboardAvoidingView,
+    TouchableWithoutFeedback,
+} from 'react-native';
+
+// ICON IMPORT
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+// THEME IMPORT
+import * as theme from '../../components/Constants/theme';
+
+// HELPER IMPORT
+// import Helper from '../../Constants/helper';
+
+// CONSTANTS
+const WIDTH = Dimensions.get('window').width;
+const HEIGHT = Dimensions.get('window').height;
+const bgImage = require('../../components/Image/SignIn.png');
 
 // const TYPE_NAME = 'NAME';
 // // const type_Password = 'Password';
@@ -45,6 +75,9 @@ console.log("before calling _test")
  class Login extends Component{
     constructor(props) {
         super(props);
+        this.state = {fadeIn: new Animated.Value(0),
+            fadeOut: new Animated.Value(1),
+           };
         this.state = {
             name:'',
             data:''
@@ -94,6 +127,8 @@ console.log("before calling _test")
     functionCombined() {
         this.setData();
         this._onSubmit();
+        this._getData();
+        this.props.navigation.navigate('Dashboard')
     }  
   
 
@@ -101,49 +136,98 @@ console.log("before calling _test")
     render(){
         const { isShowDetail, username, data, countFlag } = this.state;
         return(
-            <View style={{flex:1,justifyContent:'center',marginHorizontal:10}}>
-                <View style={{ }}>
-                <Text>
-                    Name
-                </Text>
-                <TextInput 
-                placeholder='Name'
-                value={this.state.name}
-                onChangeText={name => this.setState({ name })}
-                />
-                <Text>
-                    Password
-                </Text>
-                <TextInput placeholder='Password'/>
-                </View>
-                <View>
-                    <TouchableOpacity onPress={()=> this.functionCombined()} style={{backgroundColor:'red',marginHorizontal:100}}>
-                        <Text style={{textAlign:'center'}}>
-                            SUBMIT
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={()=> this._getData()} style={{backgroundColor:'red',marginHorizontal:100,margin:10}}>
-                        <Text style={{textAlign:'center'}}>
-                            Get
-                        </Text>
-                    </TouchableOpacity>
-                    <View>
-                        <Text>
-                            name:{data}
-                        </Text>
-                    </View>
-                    <View>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('Dashboard')}>
-                        <Text>
-                            go to main
-                        </Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </View>
+            <ImageBackground source={bgImage} style={{height: '100%', width: '100%'}}>
+            <SafeAreaView style={{flex: 1}}>
+                <KeyboardAvoidingView behavior={Platform.OS == 'ios' ? 'padding' : 'height'} style={{flex: 1}}>
+                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                        <ScrollView style={{flex: 1, padding: 20}}>
+                            {/* HEADER */}
+                            {/* <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+                                <MaterialIcons name={'chevron-left'} size={30} color={'white'} />
+                            </TouchableOpacity> */}
+
+                            {/* SOME MESSAGE */}
+                            <Text style={{fontSize: 30, color: 'white', marginVertical: 130}}>{'Welcome\nBack'}</Text>
+
+                            {/* FORM */}
+                            <TextInput
+                                style={{
+                                    ...styles.inputStyle,
+                                }}
+                                placeholder={'Email'}
+                                placeholderTextColor={'grey'}
+                                value={this.state.name}
+                                onChangeText={name => this.setState({ name })}
+                                >
+
+                               
+                                </TextInput>
+
+                            <TextInput
+                                style={{
+                                    ...styles.inputStyle,
+                                    marginTop: 50,
+                                }}
+                                placeholder={'Password'}
+                                placeholderTextColor={'grey'}></TextInput>
+
+                            <View style={{width: '100%', flexDirection: 'row', alignItems: 'center'}}>
+                                <Text style={{fontSize: 20, color: theme.colors.primaryCol1, marginVertical: 50}}>Sign in</Text>
+                                <View style={{flex: 1, alignItems: 'flex-end'}}>
+                                    <TouchableOpacity
+                                  onPress={()=> this.functionCombined()} 
+                                        style={{
+                                            height: 70,
+                                            width: 70,
+                                            borderRadius: 40,
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            backgroundColor: theme.colors.primaryCol1,
+                                            
+                                        }}>
+                                        <MaterialIcons name={'arrow-forward'} size={30} color={'white'} />
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+
+                            <View style={{width: '100%', flexDirection: 'row', alignItems: 'center'}}>
+                                <TouchableOpacity style={{...styles.textBtn}} >
+                                    <Text style={{...styles.textBtnLabel}}>Sign up</Text>
+                                </TouchableOpacity>
+                                <View style={{flex: 1, alignItems: 'flex-end'}}>
+                                    <TouchableOpacity style={{...styles.textBtn}}>
+                                        <Text style={{...styles.textBtnLabel}}>Forgot Password</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </ScrollView>
+                    </TouchableWithoutFeedback>
+                </KeyboardAvoidingView>
+            </SafeAreaView>
+        </ImageBackground>
         );
     }
 }
+const styles = StyleSheet.create({
+    inputStyle: {
+        fontSize: 15,
+        color: 'black',
+        width: '100%',
+        marginTop: 100,
+        borderBottomColor: 'lightgrey',
+        borderBottomWidth: 0.5,
+        paddingBottom: 15,
+    },
+    textBtn: {
+        borderBottomColor: theme.colors.primaryCol1,
+        borderBottomWidth: 1,
+        marginVertical: 50,
+    },
+    textBtnLabel: {
+        fontSize: 15,
+        color: theme.colors.primaryCol1,
+    },
+});
 
 const mapStateToProps = (state) => ({
    
