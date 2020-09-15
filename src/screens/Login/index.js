@@ -183,7 +183,6 @@ console.log("before calling _test")
                                             alignItems: 'center',
                                             justifyContent: 'center',
                                             backgroundColor: theme.colors.primaryCol1,
-                                            
                                         }}>
                                         <MaterialIcons name={'arrow-forward'} size={30} color={'white'} />
                                     </TouchableOpacity>

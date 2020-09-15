@@ -9,6 +9,7 @@ function AppNav() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+      <Stack.Screen name="Welcome" component={_screens._Welcome} options={{headerShown: false}} />
         <Stack.Screen name="Login" component={_screens._Login} options={{headerShown: false}}/>
         <Stack.Screen name="Dashboard" component={_screens._Dashboard} options={{headerShown: false}} />
       </Stack.Navigator>
