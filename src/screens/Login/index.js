@@ -18,6 +18,7 @@ import {
     Keyboard,
     KeyboardAvoidingView,
     TouchableWithoutFeedback,
+    CheckBox
 } from 'react-native';
 
 // ICON IMPORT
@@ -53,21 +54,23 @@ const bgImage = require('../../components/Image/SignIn.png');
 //    }
 
 // }))(TextInput )
-async function _test(){
-    console.log('function')
-    const response = await fetch('https://api.github.com/users');
-    console.log('before response');
-    const user = await response.json();
-    console.log('user resolved')
-    return user;   
 
-}
-console.log("before calling _test")
- a = _test();
- console.log("after _test")
- console.log(a);
- a.then(dtaa => console.log(data))
- console.log("last")
+// async function _test(){
+//     console.log('function')
+//     const response = await fetch('https://api.github.com/users');
+//     console.log('before response');
+//     const user = await response.json();
+//     console.log('user resolved')
+
+//     return user;   
+
+// }
+// console.log("before calling _test")
+//  a = _test();
+//  console.log("after _test")
+//  console.log(a);
+//  a.then(dtaa => console.log(data))
+//  console.log("last")
 
 
 
@@ -78,101 +81,71 @@ console.log("before calling _test")
         this.state = {fadeIn: new Animated.Value(0),
             fadeOut: new Animated.Value(1),
            };
-        this.state = {
-            name:'',
-            data:''
-        };
+           console.log("route.params", props.route.params)
+        // this.state = {
+        //     name:'',
+        //     data:''
+        // };
     }
-    
+    // componentDidMount() {
+    //     console.log("this.props.navigation.state.params.fullName", this.props.navigation.state.params.fullName)
+      
+    //   }
 
-    _onSubmit = () => {
-        alert(this.state.name)
-        this.props.setName(this.state.name)
-    }
-    setData() {
-        fetch('https://reqres.in/api/users', {
-            method: 'POST',
-            headers: {
-                Accept:'application/json',
-                'Content-Type': 'application/json',
-            },
-            body:JSON.stringify({
-                "name": this.state.name,
-            }),
-        });
-    }
+    // _onSubmit = () => {
+    //     alert(this.state.name)
+    //     this.props.setName(this.state.name)
+    // }
+    // setData() {
+    //     fetch('https://reqres.in/api/users', {
+    //         method: 'POST',
+    //         headers: {
+    //             Accept:'application/json',
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body:JSON.stringify({
+    //             "name": this.state.name,
+    //         }),
+    //     });
+    // }
    
 
    
 
-    _getData() {
-        fetch(`https://reqres.in/api/unknown/2`, {
-          method: 'GET',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            
-          }
-        })
-          .then((response) => response.json())
-          .then((responseJson) => {
-            this.setState({ data: responseJson.data.name, countFlag: true })
-            console.log("data", responseJson.data.name)
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      }
+  
 
     functionCombined() {
-        this.setData();
-        this._onSubmit();
-        this._getData();
-        this.props.navigation.navigate('Dashboard')
+        this.props.navigation.navigate('Dashboard',{p1:this.props.route.params.p1})
     }  
   
 
 
     render(){
-        const { isShowDetail, username, data, countFlag } = this.state;
+        // const { isShowDetail, data, countFlag,stringinput } = this.state;
+        const {p1} = this.props.route.params
         return(
             <ImageBackground source={bgImage} style={{height: '100%', width: '100%'}}>
             <SafeAreaView style={{flex: 1}}>
                 <KeyboardAvoidingView behavior={Platform.OS == 'ios' ? 'padding' : 'height'} style={{flex: 1}}>
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <ScrollView style={{flex: 1, padding: 20}}>
-                            {/* HEADER */}
-                            {/* <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-                                <MaterialIcons name={'chevron-left'} size={30} color={'white'} />
-                            </TouchableOpacity> */}
+                        
 
-                            {/* SOME MESSAGE */}
-                            <Text style={{fontSize: 30, color: 'white', marginVertical: 130}}>{'Welcome\nBack'}</Text>
+                          
+                            <Text style={{fontSize: 30, color: 'white', marginVertical: 130}}>{'What Color Did\nYou Enter?'}</Text>
 
-                            {/* FORM */}
-                            <TextInput
-                                style={{
-                                    ...styles.inputStyle,
-                                }}
-                                placeholder={'Email'}
-                                placeholderTextColor={'grey'}
-                                value={this.state.name}
-                                onChangeText={name => this.setState({ name })}
-                                >
-
-                               
-                                </TextInput>
-
-                            <TextInput
-                                style={{
-                                    ...styles.inputStyle,
-                                    marginTop: 50,
-                                }}
-                                placeholder={'Password'}
-                                placeholderTextColor={'grey'}></TextInput>
-
-                            <View style={{width: '100%', flexDirection: 'row', alignItems: 'center'}}>
-                                <Text style={{fontSize: 20, color: theme.colors.primaryCol1, marginVertical: 50}}>Sign in</Text>
+     
+      <View style={{   flexDirection: "row",
+    alignContent:'center',justifyContent:'center',marginTop:20,borderRadius:30,backgroundColor:theme.colors.primaryCol2}}>
+        <CheckBox
+        //   value={isSelected}
+        //   onValueChange={setSelection}
+          style={{alignSelf: "center",}}
+        />
+        <Text style={{margin:5,fontSize:20}}>{p1}</Text>
+      </View>                       
+                            <View style={{width: '100%',marginTop:100}}>
+                                {/* <Text style={{fontSize: 20, color: theme.colors.primaryCol1, marginVertical: 50}}>Sign in</Text> */}
                                 <View style={{flex: 1, alignItems: 'flex-end'}}>
                                     <TouchableOpacity
                                   onPress={()=> this.functionCombined()} 
@@ -189,16 +162,6 @@ console.log("before calling _test")
                                 </View>
                             </View>
 
-                            <View style={{width: '100%', flexDirection: 'row', alignItems: 'center'}}>
-                                <TouchableOpacity style={{...styles.textBtn}} >
-                                    <Text style={{...styles.textBtnLabel}}>Sign up</Text>
-                                </TouchableOpacity>
-                                <View style={{flex: 1, alignItems: 'flex-end'}}>
-                                    <TouchableOpacity style={{...styles.textBtn}}>
-                                        <Text style={{...styles.textBtnLabel}}>Forgot Password</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
                         </ScrollView>
                     </TouchableWithoutFeedback>
                 </KeyboardAvoidingView>
@@ -228,16 +191,16 @@ const styles = StyleSheet.create({
     },
 });
 
-const mapStateToProps = (state) => ({
+// const mapStateToProps = (state) => ({
    
-    name: state.user.name,
+//     name: state.user.name,
 
-  });
+//   });
   
-  const mapDispatchToProps = (dispatch) => ({
-    setName: data => dispatch({ type: _actions._userinfo._setUserinfo, data: data }),
+//   const mapDispatchToProps = (dispatch) => ({
+//     setName: data => dispatch({ type: _actions._userinfo._setUserinfo, data: data }),
 
     
-  });
+//   });
   
-  export default connect(mapStateToProps, mapDispatchToProps)(Login);
+  export default Login;

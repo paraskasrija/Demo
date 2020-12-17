@@ -30,6 +30,9 @@ const bgImage = require('../../components/Image/Welcome.png');
         this.handlePressOut = this.handlePressOut.bind(this);
         this._handlePressIn = this._handlePressIn.bind(this);
         this._handlePressOut = this._handlePressOut.bind(this);
+        this.state = {
+            fullName: '',
+        }
 
     }
     componentWillMount() {
@@ -71,37 +74,46 @@ const bgImage = require('../../components/Image/Welcome.png');
             <SafeAreaView style={{flex: 1}}>
                 <KeyboardAvoidingView behavior={Platform.OS == 'ios' ? 'padding' : 'height'} style={{flex: 1}}>
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                        <ScrollView style={{flex: 1, padding: 20}}>
-                            <Text style={{fontSize: 40, color: 'white', marginVertical: 250,textAlign:'center'}}>{'Welcome,'}</Text>  
-                            <View style={{alignContent:'center',alignItems:'center',margin:10}}>
-                                <TouchableOpacity
-                                 onPress={()=> this.props.navigation.navigate('Login')}
-                                onPressIn={this.handlePressIn}
-                                onPressOut={this.handlePressOut}>
-                                    <Animated.View style={[animatedStyle._transform]}>
-                                    <View  style={{ backgroundColor: theme.colors.primaryCol2,width:350,height:50,justifyContent:'center',alignItems:'center',borderRadius:30}}>
-                                       <Text style={{color:'white'}}>
-                                        LOGIN
-                                       </Text>
-                                    </View>
-                                    </Animated.View>
-                                </TouchableOpacity>
+                        <ScrollView style={{flex: 1,}}>
+                            <Text style={{fontSize: 40, color: 'white', marginVertical: 200,textAlign:'center'}}>{'Welcome,'}</Text>  
+                            <View  style={{alignContent:'center',alignItems:'center'}}>
+                            <TextInput
+                  placeholder="Enter a String"
+                  underlineColorAndroid='transparent'
+                  style={{    textAlign: 'left',
+                  height:55,
+                  fontSize:18,
+                  width:300,
+                  borderBottomWidth: 2,
+                  borderColor:'black',
+                  marginBottom: 10,
+                  color:'black'}}
+                //   keyboardType='email-address'
+                  placeholderTextColor ='black'
+                  autoCapitalize='none'
+                  autoCorrect={false}
+                  value={this.state.fullName}
+                  onChangeText={fullName => this.setState({ fullName })}
+                  returnKeyType="next"
+                               />
                             </View>
+                     
                             <View style={{alignContent:'center',alignItems:'center'}}>
                                 <TouchableOpacity
-                                 onPress={()=> this.props.navigation.navigate('Dashboard')} 
+                                 onPress={()=> this.props.navigation.navigate('Login',{p1:this.state.fullName})} 
                                 
                                 onPressIn={this.handlePressIn}
                                 onPressOut={this.handlePressOut}>
                                     <Animated.View style={[animatedStyle._transform]}>
-                                    <View  style={{ backgroundColor: theme.colors.primaryCol1,width:350,height:50,justifyContent:'center',alignItems:'center',borderRadius:30}}>
+                                    <View  style={{ backgroundColor: theme.colors.primaryCol1,width:350,height:50,justifyContent:'center',alignItems:'center',borderRadius:30,marginTop:100}}>
                                        <Text style={{color:'white'}}>
-                                        SIGNUP
+                                       Description
                                        </Text>
                                     </View>
                                     </Animated.View>
                                 </TouchableOpacity>
                             </View>
+             
                             
                         </ScrollView>
                     </TouchableWithoutFeedback>
